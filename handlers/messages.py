@@ -1,41 +1,54 @@
-import re
+import os
 from aiogram import Router, F
-from aiogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
+from aiogram.types import Message
 from aiogram.fsm.context import FSMContext
 from database.crud import get_user
+from handlers.callbacks import prepare_download_task
 
 router = Router()
 
+
 @router.message(F.text.regexp(r'https?://[^\s]+'))
 async def handle_url(message: Message, state: FSMContext):
-    user = get_user(message.from_user.id)
 
-    if not user or not user.github_token or not user.github_repo:
-        await message.answer(
-            "⚠️ **Setup Incomplete:**\n"
-            "Please set your GitHub Token and Repository first using `/set_token` and `/set_repo`.",
-            parse_mode="Markdown"
-        )
+    user = get_user(message.from_user.id)
+    if not user or not user.github_token:
+        await message.answer("⚠️ Please set your token via /set_token first.")
         return
 
-    url = message.text.strip()
+    await state.update_data(target_url=message.text.strip(), quality="best")
 
-    await state.update_data(target_url=url)
+    await ask_compression(message)
 
 
-    media_domains =["youtube.com", "youtu.be", "twitch.tv", "reddit.com", "vimeo.com", "soundcloud.com"]
-    is_media = any(domain in url for domain in media_domains)
+@router.message(F.document | F.video | F.photo | F.audio)
+async def handle_file(message: Message, state: FSMContext):
+    user = get_user(message.from_user.id)
+    if not user or not user.github_token:
+        await message.answer("⚠️ Please set your token via /set_token first.")
+        return
 
-    if is_media:
 
-        keyboard = InlineKeyboardMarkup(inline_keyboard=[
-            [InlineKeyboardButton(text="🌟 Best Quality", callback_data="qual_best")],[InlineKeyboardButton(text="📺 720p (MP4)", callback_data="qual_720p"),
-             InlineKeyboardButton(text="📱 480p (MP4)", callback_data="qual_480p")],[InlineKeyboardButton(text="🎵 Audio Only (MP3)", callback_data="qual_audio")]
-        ])
-        await message.answer("🎬 **Media link detected!**\nPlease select the desired quality:", reply_markup=keyboard, parse_mode="Markdown")
-    else:
-        await state.update_data(quality="default")
+    file_id = message.document.file_id if message.document else \
+              message.video.file_id if message.video else \
+              message.audio.file_id if message.audio else message.photo[-1].file_id
 
-        keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="📄 Raw (No Zip)", callback_data="comp_raw")],[InlineKeyboardButton(text="📦 Zip (Max Compression)", callback_data="comp_zip")],[InlineKeyboardButton(text="🔐 Zip with Password", callback_data="comp_pass")]
-        ])
-        await message.answer("🔗 **Direct link detected!**\nHow should I process and upload this file?", reply_markup=keyboard, parse_mode="Markdown")
+    file_info = await message.bot.get_file(file_id)
+    file_path = f"tmp_downloads/{message.document.file_name if message.document else 'file'}"
+
+
+    await message.bot.download_file(file_info.file_path, file_path)
+
+
+    await state.update_data(target_url=file_path, quality="raw", is_local_file=True)
+    await ask_compression(message)
+
+
+async def ask_compression(message: Message):
+    from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+    keyboard = InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text="📄 Raw (No Zip)", callback_data="comp_raw")],
+        [InlineKeyboardButton(text="📦 Zip (Max Compression)", callback_data="comp_zip")],
+        [InlineKeyboardButton(text="🔐 Zip with Password", callback_data="comp_pass")]
+    ])
+    await message.answer("📥 **File received!**\nHow should I process it?", reply_markup=keyboard, parse_mode="Markdown")
