@@ -1,30 +1,43 @@
 <div align="center">
-  <h1>🚀 RGit Uploader Bot (v2.0)</h1>
+  <h1>🚀 RGit Uploader Bot</h1>
   <p>A powerful Telegram bot that acts as an ultimate download and bypass tool. It downloads direct links, videos, local Telegram files, processes them, and pushes them directly to your GitHub repository to generate filter-free raw direct links.</p>
 </div>
 
 ---
 
 ## ✨ Features
+
 - ⚡ **Blazing Fast Downloads:** Uses `Aria2c` (up to 4 concurrent connections) for direct links.
 - 🎬 **Media Extraction:** Integrated with `yt-dlp` to download videos from YouTube, Twitch, Vimeo, Reddit, SoundCloud, and more.
 - 🔓 **Bunkr Bypass:** Built-in custom API decryptor to download directly from Bunkr domains without restrictions.
-- 📁 **Telegram File Support:** You can forward or upload any local file (Document, Video, Audio, Photo) directly to the bot, and it will upload it to GitHub.
-- 🗜️ **Smart Archiving & Splitting:** Automatically uses `7-Zip` to compress files. If a file is larger than `95MB`, it smartly splits it into `.zip.001`, `.zip.002` parts to bypass GitHub's strict file size limit. Password protection is supported.
-- 📝 **Auto `Links.md` Generator:** Automatically updates a `Links.md` file in your repository with categorized download links and timestamps for easy access.
+- 📁 **Telegram File Support:** Forward or upload any local file (Document, Video, Audio, Photo) directly to the bot, and it will upload it to GitHub.
+- 🗜️ **Smart Archiving & Splitting:** Automatically uses `7-Zip` to compress files. Files larger than `95MB` are split into `.zip.001`, `.zip.002` parts to bypass GitHub's file size limit. Password protection is supported.
+- 📝 **Auto `Links.md` Generator:** Automatically updates a `Links.md` file in your repository with categorized download links and timestamps.
 - 📊 **Live Progress Bar:** Clean and non-spammy progress updates inside Telegram.
+- 🔁 **Smart Cookie Fallback:** Automatically retries downloads without cookies if cookie-based download fails.
+
+---
 
 ## 🛠️ Prerequisites
-Before running the bot, ensure you have Python 3.9+ and the required CLI tools installed on your Linux machine or server:
+
+Ensure you have **Python 3.9+** and the required CLI tools installed:
 
 ```bash
 sudo apt-get update
 sudo apt-get install -y aria2 ffmpeg p7zip-full git unzip
 ```
 
-## ⚙️ Setup & Installation
+Install `yt-dlp` (latest binary — recommended over apt version):
+```bash
+sudo curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/yt-dlp
+sudo chmod a+rx /usr/local/bin/yt-dlp
+```
 
-You can download the bot using either **Git** or **Wget**.
+> ⚠️ **Important:** Do NOT use `apt install yt-dlp` — the apt version is outdated and will fail on modern YouTube.
+
+---
+
+## ⚙️ Setup & Installation
 
 ### Option 1: Using Git (Recommended)
 ```bash
@@ -39,8 +52,6 @@ unzip sandbox.zip
 cd sandbox-main
 ```
 
----
-
 **1. Create the Virtual Environment:**
 ```bash
 python3 -m venv venv
@@ -52,53 +63,132 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-**3. Environment Variables (.env):**
-Create a `.env` file in the root directory and add your bot credentials:
+**3. Configure Environment Variables:**
+
+Create a `.env` file in the root directory:
+
 ```env
-# Get this from @BotFather in Telegram
+# Get this from @BotFather on Telegram
 BOT_TOKEN=123456789:YOUR_BOT_TOKEN_HERE
 
-# Database URI (SQLite is default)
+# Database URI (SQLite is default, no setup needed)
 DB_URL=sqlite:///database/bot.db
 
-# YouTube Cookies (Optional but Recommended)
-# Paste the ENTIRE content of your cookies.txt file INSIDE double quotes
-YOUTUBE_COOKIES="paste_your_cookies_here"
+# YouTube Cookies — Optional (see cookie setup section below)
+# Option A: Path to a cookies.txt file on your server
+YOUTUBE_COOKIES=youtube_cookies.txt
+
+# Option B: Paste the entire cookie content in double quotes
+# YOUTUBE_COOKIES="# Netscape HTTP Cookie File
+# .youtube.com   TRUE   /   TRUE   ..."
 ```
 
+---
+
 ## 🚀 Running the Bot
-Once everything is set up, run the bot using:
+
 ```bash
 python bot.py
 ```
 
-## 🤖 Usage (Telegram Commands)
-Open your bot in Telegram and use the following commands to get started:
-- `/start` - Initialize the bot.
-- `/set_token <PAT>` - Securely link your GitHub Personal Access Token. *(Requires `Contents: Write` permission).*
-- `/set_repo <username/repo>` - Set the target repository for uploading.
-- `/status` - Check your configuration status.
+Or with PM2 for production:
+```bash
+pm2 start bot.py --name "rgit-bot" --interpreter python3
+pm2 save
+```
 
-> 💡 **Tip:** Just send any **URL** or **Telegram File** to the bot, choose your quality/compression settings via Inline Keyboards, and receive your direct raw links!
+---
 
-<hr/>
+## 🤖 Telegram Commands
+
+| Command | Description |
+|---|---|
+| `/start` | Initialize the bot |
+| `/set_token <PAT>` | Link your GitHub Personal Access Token *(requires `Contents: Write` permission)* |
+| `/set_repo <username/repo>` | Set your target GitHub repository |
+| `/status` | Check your current configuration |
+
+> 💡 Just send any **URL** or **Telegram File** to the bot, choose your quality/compression via inline buttons, and get your raw direct links!
+
+---
 
 ## 🍪 Setting Up YouTube Cookies (Optional but Recommended)
-YouTube often blocks automated downloads. To bypass this, you can provide global cookies for your bot:
 
-1. **Install Browser Extension:** Install the `Get cookies.txt LOCALLY` extension on your PC browser:
-   - [🌐 Chrome Web Store](https://chromewebstore.google.com/detail/get-cookiestxt-locally/cclelndahbckbenkjhflpdbgdldlbecc)
-   - [🌐 Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/get-cookies-txt-locally/)
-2. **Export Cookies:** Log in to YouTube (preferably with a secondary/burner account), click the extension icon, and select **Export As**. Save the `cookies.txt` file to your PC.
-3. **Add to `.env`:** Open your `.env` file and add the `YOUTUBE_COOKIES` variable. Paste the entire content of the file **inside double quotes (`""`)**.
+YouTube may block downloads from server IPs. Providing cookies from a logged-in browser session can help bypass this.
 
-Example:
+> ⚠️ **Use a secondary/burner Google account** — never your main account.
+
+**Step 1 — Install the browser extension:**
+- [Chrome — Get cookies.txt LOCALLY](https://chromewebstore.google.com/detail/get-cookiestxt-locally/cclelndahbckbenkjhflpdbgdldlbecc)
+- [Firefox — Get cookies.txt LOCALLY](https://addons.mozilla.org/en-US/firefox/addon/get-cookies-txt-locally/)
+
+**Step 2 — Export cookies:**
+Log in to YouTube, click the extension, and export as `cookies.txt`.
+
+**Step 3 — Add to your server:**
+Upload `cookies.txt` to your bot's directory, then in `.env`:
 ```env
-BOT_TOKEN=123456789:YOUR_BOT_TOKEN_HERE
-DB_URL=sqlite:///database/bot.db
-
-YOUTUBE_COOKIES="# Netscape HTTP Cookie File
-.youtube.com    TRUE    /    TRUE    1745423871    LOGIN_INFO    ...
-(paste the rest of your cookie content here)"
+YOUTUBE_COOKIES=youtube_cookies.txt
 ```
-4. **Restart the bot.** Now the bot will securely use this global cookie for all YouTube downloads!
+
+**Step 4 — Restart the bot.**
+
+> 💡 **Note:** The bot automatically retries without cookies if cookie-based download fails, so it works even if your cookies expire.
+
+---
+
+## 📁 Project Structure
+
+```
+.
+├── bot.py                    # Entry point
+├── config.py                 # Environment config
+├── requirements.txt
+├── .env                      # Your secrets (never commit this!)
+├── core/
+│   ├── archiver.py           # 7zip compression & splitting
+│   ├── bunkr_engine.py       # Bunkr API bypass downloader
+│   ├── downloader.py         # Aria2c direct downloader
+│   ├── progress.py           # Telegram progress bar
+│   └── ytdlp_engine.py       # yt-dlp media downloader
+├── database/
+│   ├── models.py             # SQLAlchemy models
+│   └── crud.py               # DB operations
+├── github_integration/
+│   └── git_manager.py        # Git clone/push logic
+└── handlers/
+    ├── commands.py           # Bot commands
+    ├── messages.py           # URL & file handlers
+    └── callbacks.py          # Inline keyboard callbacks
+```
+
+---
+
+## 🔑 GitHub PAT Setup
+
+1. Go to **GitHub → Settings → Developer Settings → Personal Access Tokens → Tokens (classic)**
+2. Click **Generate new token (classic)**
+3. Give it a name, set expiration, and check **`repo` → `Contents: Write`**
+4. Copy the token and send `/set_token <your_token>` to the bot
+
+---
+
+## ⚠️ Important Notes
+
+- GitHub has a **100MB hard limit** per file. The bot automatically splits files at **95MB** to stay safe.
+- The `Links.md` file in your repo is updated automatically with every upload and includes Tehran (IR) timestamps.
+- `tmp_downloads/` is used as a working directory and is cleaned up after each upload.
+- Do **not** commit your `.env` file or `youtube_cookies.txt` — add them to `.gitignore`.
+
+```gitignore
+.env
+youtube_cookies.txt
+tmp_downloads/
+database/bot.db
+```
+
+---
+
+<div align="center">
+  <p>Made with ❤️ — Pull requests welcome!</p>
+</div>
