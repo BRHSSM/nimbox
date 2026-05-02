@@ -7,7 +7,8 @@ from aiogram.fsm.context import FSMContext
 from database.crud import get_user
 from handlers.callbacks import prepare_download_task
 from core.progress import ProgressUpdater
-
+from aiogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton # <--- اینها را حتماً اینجا داشته باش
+from aiogram.fsm.context import FSMContext
 router = Router()
 
 async def download_tg_file(bot, file_path: str, dest_path: str, updater: ProgressUpdater):
@@ -30,8 +31,23 @@ async def handle_url(message: Message, state: FSMContext):
     if not user or not user.github_token:
         await message.answer("⚠️ Please set your token via /set_token first.")
         return
-    await state.update_data(target_url=message.text.strip(), quality="best")
-    await ask_compression(message)
+
+    url = message.text.strip()
+    await state.update_data(target_url=url)
+
+    media_domains = ["youtube.com", "youtu.be", "twitch.tv", "reddit.com", "vimeo.com", "soundcloud.com"]
+    is_media = any(domain in url for domain in media_domains)
+
+    if is_media:
+        keyboard = InlineKeyboardMarkup(inline_keyboard=[
+            [InlineKeyboardButton(text="🌟 Best Quality", callback_data="qual_best")],
+            [InlineKeyboardButton(text="📺 720p", callback_data="qual_720p"), InlineKeyboardButton(text="📱 480p", callback_data="qual_480p")],
+            [InlineKeyboardButton(text="📉 360p", callback_data="qual_360p"), InlineKeyboardButton(text="🎵 Audio", callback_data="qual_audio")]
+        ])
+        await message.answer("🎬 **Media link detected!**\nPlease select the desired quality:", reply_markup=keyboard, parse_mode="Markdown")
+    else:
+        await state.update_data(quality="best")
+        await ask_compression(message)
 
 @router.message(F.document | F.video | F.photo | F.audio)
 async def handle_file(message: Message, state: FSMContext):
@@ -73,7 +89,7 @@ async def handle_file(message: Message, state: FSMContext):
     await ask_compression(message)
 
 async def ask_compression(message: Message):
-    from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+
     keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="📄 Raw (No Zip)", callback_data="comp_raw")],[InlineKeyboardButton(text="📦 Zip (Max Compression)", callback_data="comp_zip")],[InlineKeyboardButton(text="🔐 Zip with Password", callback_data="comp_pass")]
     ])
     await message.answer("📥 **File ready!**\nHow should I process it?", reply_markup=keyboard, parse_mode="Markdown")
