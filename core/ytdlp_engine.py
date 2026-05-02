@@ -9,7 +9,7 @@ async def download_media(url: str, quality: str, updater: ProgressUpdater, user_
     tmp_dir = "tmp_downloads"
     os.makedirs(tmp_dir, exist_ok=True)
 
-    cmd = ["yt-dlp", "--newline", "--no-warnings"]
+    cmd = ["yt-dlp", "--newline", "--no-warnings", "--extractor-args", "youtube:player_client=web"]
 
     cookies_file_to_delete = None
     if user_cookies:
