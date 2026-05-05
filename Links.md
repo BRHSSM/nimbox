@@ -1,5 +1,8 @@
 ## 🔗 Direct Download Links
 
+### 📅 2026-05-06 02:19 (IR Time)
+- 📥 **[v2rayNG_2.1.5-fdroid_arm64-v8a.apk](https://github.com/BRHSSM/nimbox/raw/main/dl/v2rayNG_2.1.5-fdroid_arm64-v8a.apk)**
+
 ### 📅 2026-05-06 02:15 (IR Time)
 - 📥 **[v2rayNG_2.1.5_arm64-v8a.apk](https://github.com/BRHSSM/nimbox/raw/main/dl/v2rayNG_2.1.5_arm64-v8a.apk)**
 
