@@ -1,5 +1,8 @@
 ## 🔗 Direct Download Links
 
+### 📅 2026-05-06 03:28 (IR Time)
+- 📥 **[details](https://github.com/BRHSSM/nimbox/raw/main/dl/details)**
+
 ### 📅 2026-05-06 03:27 (IR Time)
 - 📥 **[MasterDnsVPN-GG-1.0.9-arm64-v8a.apk](https://github.com/BRHSSM/nimbox/raw/main/dl/MasterDnsVPN-GG-1.0.9-arm64-v8a.apk)**
 
