@@ -1,5 +1,9 @@
 ## 🔗 Direct Download Links
 
+### 📅 2026-05-06 03:21 (IR Time)
+- 📥 **[org.mozilla.fennec_fdroid_1500020.zip.001](https://github.com/BRHSSM/nimbox/raw/main/dl/org.mozilla.fennec_fdroid_1500020.zip.001)**
+- 📥 **[org.mozilla.fennec_fdroid_1500020.zip.002](https://github.com/BRHSSM/nimbox/raw/main/dl/org.mozilla.fennec_fdroid_1500020.zip.002)**
+
 ### 📅 2026-05-06 02:19 (IR Time)
 - 📥 **[v2rayNG_2.1.5-fdroid_arm64-v8a.apk](https://github.com/BRHSSM/nimbox/raw/main/dl/v2rayNG_2.1.5-fdroid_arm64-v8a.apk)**
 
