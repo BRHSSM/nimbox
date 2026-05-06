@@ -1,5 +1,8 @@
 ## 🔗 Direct Download Links
 
+### 📅 2026-05-06 18:40 (IR Time)
+- 📥 **[Happ_beta.apk](https://github.com/BRHSSM/nimbox/raw/main/dl/Happ_beta.apk)**
+
 ### 📅 2026-05-06 03:28 (IR Time)
 - 📥 **[NekoBox-1.4.2-arm64-v8a.apk](https://github.com/BRHSSM/nimbox/raw/main/dl/NekoBox-1.4.2-arm64-v8a.apk)**
 
