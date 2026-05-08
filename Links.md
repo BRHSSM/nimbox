@@ -1,5 +1,8 @@
 ## 🔗 Direct Download Links
 
+### 📅 2026-05-08 18:10 (IR Time)
+- 📥 [SlipNet-v2.5.3-full-release-arm64-v8a.apk](https://github.com/BRHSSM/nimbox/raw/main/dl/SlipNet-v2.5.3-full-release-arm64-v8a.apk) `25.64 MB`
+
 ### 📅 2026-05-08 18:09 (IR Time)
 - 📥 [Happ_beta.apk](https://github.com/BRHSSM/nimbox/raw/main/dl/Happ_beta.apk) `55.03 MB`
 
