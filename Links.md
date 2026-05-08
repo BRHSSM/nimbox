@@ -1,5 +1,8 @@
 ## 🔗 Direct Download Links
 
+### 📅 2026-05-08 18:09 (IR Time)
+- 📥 [Happ_beta.apk](https://github.com/BRHSSM/nimbox/raw/main/dl/Happ_beta.apk) `55.03 MB`
+
 ### 📅 2026-05-08 17:16 (IR Time)
 - 📥 [karing_1.2.19.2201_android_arm64-v8a.apk](https://github.com/BRHSSM/nimbox/raw/main/dl/karing_1.2.19.2201_android_arm64-v8a.apk) `53.42 MB`
 
