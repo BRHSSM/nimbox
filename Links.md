@@ -1,5 +1,8 @@
 ## 🔗 Direct Download Links
 
+### 📅 2026-05-17 01:40 (IR Time)
+- 🎬 [What does Main DPS_ Sub DPS_ ect.. mean__ _genshinimpact _genshinguide.mp4](https://github.com/BRHSSM/nimbox/raw/main/dl/What%20does%20Main%20DPS_%20Sub%20DPS_%20ect..%20mean__%20_genshinimpact%20_genshinguide.mp4) `30.58 MB`
+
 ### 📅 2026-05-17 01:32 (IR Time)
 - 📥 [Who Should You Wish for in 6 6 Nicole Durin Mavuika or Lohen.z01](https://github.com/BRHSSM/nimbox/raw/main/dl/Who%20Should%20You%20Wish%20for%20in%206%206%20Nicole%20Durin%20Mavuika%20or%20Lohen.z01) `95.00 MB`
 - 🗜️ [Who Should You Wish for in 6 6 Nicole Durin Mavuika or Lohen.zip](https://github.com/BRHSSM/nimbox/raw/main/dl/Who%20Should%20You%20Wish%20for%20in%206%206%20Nicole%20Durin%20Mavuika%20or%20Lohen.zip) `75.52 MB`
