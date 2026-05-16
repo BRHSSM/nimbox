@@ -1,5 +1,8 @@
 ## 🔗 Direct Download Links
 
+### 📅 2026-05-17 01:49 (IR Time)
+- 📱 [app-arm64-v8a-release.apk](https://github.com/BRHSSM/nimbox/raw/main/dl/app-arm64-v8a-release.apk) `31.24 MB`
+
 ### 📅 2026-05-17 01:43 (IR Time)
 - 📱 [ShirOKhorshid-2026.05.14.apk](https://github.com/BRHSSM/nimbox/raw/main/dl/ShirOKhorshid-2026.05.14.apk) `23.93 MB`
 
