@@ -1,5 +1,8 @@
 ## 🔗 Direct Download Links
 
+### 📅 2026-05-17 01:43 (IR Time)
+- 📱 [ShirOKhorshid-2026.05.14.apk](https://github.com/BRHSSM/nimbox/raw/main/dl/ShirOKhorshid-2026.05.14.apk) `23.93 MB`
+
 ### 📅 2026-05-17 01:40 (IR Time)
 - 🎬 [What does Main DPS_ Sub DPS_ ect.. mean__ _genshinimpact _genshinguide.mp4](https://github.com/BRHSSM/nimbox/raw/main/dl/What%20does%20Main%20DPS_%20Sub%20DPS_%20ect..%20mean__%20_genshinimpact%20_genshinguide.mp4) `30.58 MB`
 
